@@ -45,8 +45,8 @@ class OpenIMUros:
 
     def readimu(self):
         #readback = self.openimudev.getdata('z1')
-        readback = self.openimudev.getdata('z1')
-
+        readback = self.openimudev.getdata('a2')
+        rospy.loginfo(readback)
         return readback
 
 if __name__ == "__main__":
