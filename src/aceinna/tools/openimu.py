@@ -37,6 +37,8 @@ class OpenIMU(object):
 
     def getdata(self, datatype):
         readback = self.imudevice.read_untils_have_data(datatype)
+
+        print(readback)
         try:
             if datatype == ('z1'):
                 timeraw = (readback[0:4]) #time in ms
