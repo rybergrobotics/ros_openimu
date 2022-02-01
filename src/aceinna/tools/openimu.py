@@ -132,8 +132,8 @@ class OpenIMU(object):
                 zaccel = struct.unpack('f', bytes(readback[44:48]))[0]
                 zaccel = struct.unpack('f', bytes(readback[48:52]))[0]
 
-                #imudata =[time_ms, time_s, roll, pitch, heading, xrate, yrate, zrate, xaccel, yaccel, zaccel]
-                imudata =[time_ms, time_s, roll, pitch, heading, 0, 0, 0, 0, 0, 0]
+                imudata =[time_ms, time_s, roll, pitch, heading, xrate, yrate, zrate, xaccel, yaccel, zaccel]
+                #imudata =[time_ms, time_s, roll, pitch, heading, 0, 0, 0, 0, 0, 0]
 
             return imudata
         except:

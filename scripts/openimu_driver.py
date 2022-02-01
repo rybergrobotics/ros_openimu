@@ -47,7 +47,7 @@ class OpenIMUros:
     def readimu(self):
         #readback = self.openimudev.getdata('z1')
         readback = self.openimudev.getdata('a2')
-        rospy.loginfo(readback)
+        #rospy.loginfo(readback)
         return readback
 
 if __name__ == "__main__":
@@ -88,7 +88,7 @@ if __name__ == "__main__":
             imu_msg.orientation.z = q[2]
             imu_msg.orientation.w = q[3]
             
-            '''
+            
             imu_msg.linear_acceleration.x = readback[1]
             imu_msg.linear_acceleration.y = readback[2]
             imu_msg.linear_acceleration.z = readback[3]
@@ -97,7 +97,7 @@ if __name__ == "__main__":
             imu_msg.angular_velocity.y = readback[5] * convert_rads
             imu_msg.angular_velocity.z = readback[6] * convert_rads
             imu_msg.angular_velocity_covariance[0] = -1
-            '''
+            
 
 
             pub_imu.publish(imu_msg)
