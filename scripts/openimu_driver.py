@@ -77,7 +77,9 @@ if __name__ == "__main__":
             imu_msg.header.stamp = rospy.Time.now()
             imu_msg.header.frame_id = frame_id
             imu_msg.header.seq = seq
-            imu_msg.orientation_covariance[0] = -1
+            
+            '''
+            imu_msg.orientation_covariance[0] = -1          
             imu_msg.linear_acceleration.x = readback[1]
             imu_msg.linear_acceleration.y = readback[2]
             imu_msg.linear_acceleration.z = readback[3]
@@ -99,6 +101,7 @@ if __name__ == "__main__":
             pub_mag.publish(mag_msg)
 
             seq = seq + 1
+            '''
             rate.sleep()
     openimu_wrp.close()         # exit
 
