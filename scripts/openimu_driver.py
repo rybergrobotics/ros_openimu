@@ -72,32 +72,34 @@ if __name__ == "__main__":
         #read the data - call the get imu measurement data
         readback = openimu_wrp.readimu()
         #publish the data m/s^2 and convert deg/s to rad/s
-        imu_msg.header.stamp = rospy.Time.now()
-        imu_msg.header.frame_id = frame_id
-        imu_msg.header.seq = seq
-        imu_msg.orientation_covariance[0] = -1
-        imu_msg.linear_acceleration.x = readback[1]
-        imu_msg.linear_acceleration.y = readback[2]
-        imu_msg.linear_acceleration.z = readback[3]
-        imu_msg.linear_acceleration_covariance[0] = -1
-        imu_msg.angular_velocity.x = readback[4] * convert_rads
-        imu_msg.angular_velocity.y = readback[5] * convert_rads
-        imu_msg.angular_velocity.z = readback[6] * convert_rads
-        imu_msg.angular_velocity_covariance[0] = -1
-        pub_imu.publish(imu_msg)
 
-        # Publish magnetometer data - convert Gauss to Tesla
-        mag_msg.header.stamp = imu_msg.header.stamp
-        mag_msg.header.frame_id = frame_id
-        mag_msg.header.seq = seq
-        mag_msg.magnetic_field.x = readback[7] * convert_tesla
-        mag_msg.magnetic_field.y = readback[8] * convert_tesla
-        mag_msg.magnetic_field.z = readback[9] * convert_tesla
-        mag_msg.magnetic_field_covariance = [0,0,0,0,0,0,0,0,0]
-        pub_mag.publish(mag_msg)
+        if(not readback):
+            imu_msg.header.stamp = rospy.Time.now()
+            imu_msg.header.frame_id = frame_id
+            imu_msg.header.seq = seq
+            imu_msg.orientation_covariance[0] = -1
+            imu_msg.linear_acceleration.x = readback[1]
+            imu_msg.linear_acceleration.y = readback[2]
+            imu_msg.linear_acceleration.z = readback[3]
+            imu_msg.linear_acceleration_covariance[0] = -1
+            imu_msg.angular_velocity.x = readback[4] * convert_rads
+            imu_msg.angular_velocity.y = readback[5] * convert_rads
+            imu_msg.angular_velocity.z = readback[6] * convert_rads
+            imu_msg.angular_velocity_covariance[0] = -1
+            pub_imu.publish(imu_msg)
 
-        seq = seq + 1
-        rate.sleep()
+            # Publish magnetometer data - convert Gauss to Tesla
+            mag_msg.header.stamp = imu_msg.header.stamp
+            mag_msg.header.frame_id = frame_id
+            mag_msg.header.seq = seq
+            mag_msg.magnetic_field.x = readback[7] * convert_tesla
+            mag_msg.magnetic_field.y = readback[8] * convert_tesla
+            mag_msg.magnetic_field.z = readback[9] * convert_tesla
+            mag_msg.magnetic_field_covariance = [0,0,0,0,0,0,0,0,0]
+            pub_mag.publish(mag_msg)
+
+            seq = seq + 1
+            rate.sleep()
     openimu_wrp.close()         # exit
 
 
