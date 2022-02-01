@@ -5,6 +5,7 @@ import sys
 import math
 from time import time, sleep
 from sensor_msgs.msg import Imu, MagneticField
+from tf.transformations import quaternion_from_euler
 
 try:
     from ros_openimu.src.aceinna.tools import OpenIMU
@@ -78,8 +79,13 @@ if __name__ == "__main__":
             imu_msg.header.frame_id = frame_id
             imu_msg.header.seq = seq
 
+
+            q = quaternion_from_euler(readback[2], readback[3], readback[4])
+
+            imu_msg.orientation_covariance[0] = -1 
+            imu_msg.orientation = q
+            
             '''
-            imu_msg.orientation_covariance[0] = -1          
             imu_msg.linear_acceleration.x = readback[1]
             imu_msg.linear_acceleration.y = readback[2]
             imu_msg.linear_acceleration.z = readback[3]
@@ -88,9 +94,13 @@ if __name__ == "__main__":
             imu_msg.angular_velocity.y = readback[5] * convert_rads
             imu_msg.angular_velocity.z = readback[6] * convert_rads
             imu_msg.angular_velocity_covariance[0] = -1
+            '''
+
+
             pub_imu.publish(imu_msg)
 
             # Publish magnetometer data - convert Gauss to Tesla
+            '''
             mag_msg.header.stamp = imu_msg.header.stamp
             mag_msg.header.frame_id = frame_id
             mag_msg.header.seq = seq
@@ -99,9 +109,11 @@ if __name__ == "__main__":
             mag_msg.magnetic_field.z = readback[9] * convert_tesla
             mag_msg.magnetic_field_covariance = [0,0,0,0,0,0,0,0,0]
             pub_mag.publish(mag_msg)
+            '''
 
             seq = seq + 1
-            '''
+            
+
             rate.sleep()
     openimu_wrp.close()         # exit
 
