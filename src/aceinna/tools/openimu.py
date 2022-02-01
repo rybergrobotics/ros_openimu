@@ -64,7 +64,7 @@ class OpenIMU(object):
                 imudata =[time_ms, xaccel, yaccel, zaccel, xrate, yrate, zrate, xmag, ymag, zmag]
 
     # a1 a2 packets in development
-            if datatype == ('a1'):
+            elif datatype == ('a1'):
                 time_ms = struct.unpack('I', bytes(readback[0:4]))[0] #unin32
                 time_s = struct.unpack('d', bytes(readback[4:12]))[0]  #double
                 roll = struct.unpack('f', bytes(readback[12:16]))[0]
@@ -80,8 +80,8 @@ class OpenIMU(object):
                 turnSw = struct.unpack('B', bytes(readback[46:47]))[0]   #uint8
                 imudata =[time_ms, time_s, roll, pitch, xrate, yrate, zrate, xaccel, yaccel, zaccel, opMode, linAccSw, turnSw]
 
-            if datatype == ('a2'):
-
+            elif datatype == ('a2'):
+                '''
                 timeraw = (readback[0:4]) #time in ms
                 time_ms = struct.unpack('I', bytes(timeraw))[0]
                 print("Time in MS",time_ms)
@@ -104,7 +104,7 @@ class OpenIMU(object):
                 heading = struct.unpack('f', bytes(heading_raw))[0]
                 print("Heading",heading)
 
-                '''
+                
                 heading_raw = (readback[20:24]) #raw heading 
                 heading = struct.unpack('f', bytes(heading_raw))[0]
                 print("Heading",heading)
@@ -117,9 +117,10 @@ class OpenIMU(object):
                 heading = struct.unpack('f', bytes(heading_raw))[0]
                 print("Heading",heading)
 
+                '''
 
-
-                
+                time_ms = struct.unpack('I', bytes(readback[0:4]))[0] #unin32
+                time_s = struct.unpack('d', bytes(readback[4:12]))[0]  #double
                 roll = struct.unpack('f', bytes(readback[12:16]))[0]
                 pitch = struct.unpack('f', bytes(readback[16:20]))[0]
                 heading = struct.unpack('f', bytes(readback[20:24]))[0]
@@ -130,7 +131,6 @@ class OpenIMU(object):
                 yaccel = struct.unpack('f', bytes(readback[40:44]))[0]
                 zaccel = struct.unpack('f', bytes(readback[44:48]))[0]
                 zaccel = struct.unpack('f', bytes(readback[48:52]))[0]
-                '''
 
                 #imudata =[time_ms, time_s, roll, pitch, heading, xrate, yrate, zrate, xaccel, yaccel, zaccel]
                 imudata =[time_ms, time_s, roll, pitch, heading, 0, 0, 0, 0, 0, 0]
