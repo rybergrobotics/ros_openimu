@@ -44,8 +44,8 @@ class OpenIMUros:
     '''
 
     def readimu(self):
-        readback = self.openimudev.getdata('z1')
-        readback1 = self.openimudev.getdata('a2')
+        #readback = self.openimudev.getdata('z1')
+        readback = self.openimudev.getdata('a2')
 
         return readback
 
