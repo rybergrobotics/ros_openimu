@@ -90,9 +90,36 @@ class OpenIMU(object):
                 time_s = struct.unpack('d', bytes(time_s_raw))[0]  #double
                 print("Time in Sec",time_s)
 
+
+                roll_raw = (readback[12:16]) #raw roll
+                roll = struct.unpack('f', bytes(roll_raw))[0]
+                print("Roll",roll)
+
+                pitch_raw = (readback[16:20]) #raw pitch
+                pitch = struct.unpack('f', bytes(pitch_raw))[0]
+                print("Pitch",pitch)
+
+
+                heading_raw = (readback[20:24]) #raw heading 
+                heading = struct.unpack('f', bytes(heading_raw))[0]
+                print("Heading",heading)
+
                 '''
-                time_ms = struct.unpack('I', bytes(readback[0:4]))[0] #unin32
-                time_s = struct.unpack('d', bytes(readback[4:12]))[0]  #double
+                heading_raw = (readback[20:24]) #raw heading 
+                heading = struct.unpack('f', bytes(heading_raw))[0]
+                print("Heading",heading)
+
+                heading_raw = (readback[20:24]) #raw heading 
+                heading = struct.unpack('f', bytes(heading_raw))[0]
+                print("Heading",heading)                
+
+                heading_raw = (readback[20:24]) #raw heading 
+                heading = struct.unpack('f', bytes(heading_raw))[0]
+                print("Heading",heading)
+
+
+
+                
                 roll = struct.unpack('f', bytes(readback[12:16]))[0]
                 pitch = struct.unpack('f', bytes(readback[16:20]))[0]
                 heading = struct.unpack('f', bytes(readback[20:24]))[0]
@@ -103,8 +130,11 @@ class OpenIMU(object):
                 yaccel = struct.unpack('f', bytes(readback[40:44]))[0]
                 zaccel = struct.unpack('f', bytes(readback[44:48]))[0]
                 zaccel = struct.unpack('f', bytes(readback[48:52]))[0]
-                imudata =[time_ms, time_s, roll, pitch, heading, xrate, yrate, zrate, xaccel, yaccel, zaccel]
                 '''
+
+                #imudata =[time_ms, time_s, roll, pitch, heading, xrate, yrate, zrate, xaccel, yaccel, zaccel]
+                imudata =[time_ms, time_s, roll, pitch, heading, 0, 0, 0, 0, 0, 0]
+
             return imudata
         except:
             pass
