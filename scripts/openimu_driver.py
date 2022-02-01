@@ -74,7 +74,7 @@ if __name__ == "__main__":
         readback = openimu_wrp.readimu()
         #publish the data m/s^2 and convert deg/s to rad/s
 
-        if(not readback):
+        if(readback):
             imu_msg.header.stamp = rospy.Time.now()
             imu_msg.header.frame_id = frame_id
             imu_msg.header.seq = seq
@@ -83,7 +83,10 @@ if __name__ == "__main__":
             q = quaternion_from_euler(readback[2], readback[3], readback[4])
 
             imu_msg.orientation_covariance[0] = -1 
-            imu_msg.orientation = q
+            imu_msg.orientation.x = q[0]
+            imu_msg.orientation.y = q[1]
+            imu_msg.orientation.z = q[2]
+            imu_msg.orientation.w = q[3]
             
             '''
             imu_msg.linear_acceleration.x = readback[1]
