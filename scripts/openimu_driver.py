@@ -38,16 +38,8 @@ class OpenIMUros:
     def close(self):
         self.openimudev.close()
 
-    '''
-    def readimu(self, packet_type):
-        readback = self.openimudev.getdata(packet_type)
-        return readback
-    '''
-
     def readimu(self):
-        #readback = self.openimudev.getdata('z1')
         readback = self.openimudev.getdata('a2')
-        #rospy.loginfo(readback)
         return readback
 
 if __name__ == "__main__":
@@ -79,6 +71,8 @@ if __name__ == "__main__":
             imu_msg.header.frame_id = frame_id
             imu_msg.header.seq = seq
 
+#imudata =[time_ms, time_s, roll, pitch, heading, xrate, yrate, zrate, xaccel, yaccel, zaccel]
+
 
             q = quaternion_from_euler(readback[2], readback[3], readback[4])
 
@@ -89,31 +83,16 @@ if __name__ == "__main__":
             imu_msg.orientation.w = q[3]
             
             
-            imu_msg.linear_acceleration.x = readback[1]
-            imu_msg.linear_acceleration.y = readback[2]
-            imu_msg.linear_acceleration.z = readback[3]
+            imu_msg.linear_acceleration.x = readback[8]
+            imu_msg.linear_acceleration.y = readback[9]
+            imu_msg.linear_acceleration.z = readback[10]
             imu_msg.linear_acceleration_covariance[0] = -1
-            imu_msg.angular_velocity.x = readback[4] * convert_rads
-            imu_msg.angular_velocity.y = readback[5] * convert_rads
-            imu_msg.angular_velocity.z = readback[6] * convert_rads
+            imu_msg.angular_velocity.x = readback[5] * convert_rads
+            imu_msg.angular_velocity.y = readback[6] * convert_rads
+            imu_msg.angular_velocity.z = readback[7] * convert_rads
             imu_msg.angular_velocity_covariance[0] = -1
             
-
-
             pub_imu.publish(imu_msg)
-
-            # Publish magnetometer data - convert Gauss to Tesla
-            '''
-            mag_msg.header.stamp = imu_msg.header.stamp
-            mag_msg.header.frame_id = frame_id
-            mag_msg.header.seq = seq
-            mag_msg.magnetic_field.x = readback[7] * convert_tesla
-            mag_msg.magnetic_field.y = readback[8] * convert_tesla
-            mag_msg.magnetic_field.z = readback[9] * convert_tesla
-            mag_msg.magnetic_field_covariance = [0,0,0,0,0,0,0,0,0]
-            pub_mag.publish(mag_msg)
-            '''
-
             seq = seq + 1
             
 

@@ -81,59 +81,38 @@ class OpenIMU(object):
                 imudata =[time_ms, time_s, roll, pitch, xrate, yrate, zrate, xaccel, yaccel, zaccel, opMode, linAccSw, turnSw]
 
             elif datatype == ('a2'):
-                '''
-                timeraw = (readback[0:4]) #time in ms
-                time_ms = struct.unpack('I', bytes(timeraw))[0]
-                print("Time in MS",time_ms)
-
-                time_s_raw = (readback[4:12]) #time in S
-                time_s = struct.unpack('d', bytes(time_s_raw))[0]  #double
-                print("Time in Sec",time_s)
-
-
-                roll_raw = (readback[12:16]) #raw roll
-                roll = struct.unpack('f', bytes(roll_raw))[0]
-                print("Roll",roll)
-
-                pitch_raw = (readback[16:20]) #raw pitch
-                pitch = struct.unpack('f', bytes(pitch_raw))[0]
-                print("Pitch",pitch)
-
-
-                heading_raw = (readback[20:24]) #raw heading 
-                heading = struct.unpack('f', bytes(heading_raw))[0]
-                print("Heading",heading)
-
                 
+                timeraw = (readback[0:4]) #time in ms
+                time_s_raw = (readback[4:12]) #time in S
+                roll_raw = (readback[12:16]) #raw roll
+                pitch_raw = (readback[16:20]) #raw pitch
                 heading_raw = (readback[20:24]) #raw heading 
+
+                x_rate_raw = (readback[24:28]) #angular velocity
+                y_rate_raw = (readback[28:32])  
+                z_rate_raw = (readback[32:36])  
+
+                xaccel_raw = (readback[36:40]) #acceleration 
+                yaccel_raw = (readback[40:44])  
+                zaccel_raw = (readback[44:48])  
+                zaccel_raw1 = (readback[48:52])  
+
+
+                time_ms = struct.unpack('I', bytes(timeraw))[0]
+                time_s = struct.unpack('d', bytes(time_s_raw))[0]  #double
+                roll = struct.unpack('f', bytes(roll_raw))[0]
+                pitch = struct.unpack('f', bytes(pitch_raw))[0]
                 heading = struct.unpack('f', bytes(heading_raw))[0]
-                print("Heading",heading)
+                xrate = struct.unpack('f', bytes(x_rate_raw))[0]
+                yrate = struct.unpack('f', bytes(y_rate_raw))[0]
+                zrate = struct.unpack('f', bytes(z_rate_raw))[0]
+                xaccel = struct.unpack('f', bytes(xaccel_raw))[0]
+                yaccel = struct.unpack('f', bytes(yaccel_raw))[0]
+                zaccel = struct.unpack('f', bytes(zaccel_raw))[0]
+                zaccel = struct.unpack('f', bytes(zaccel_raw1))[0]
 
-                heading_raw = (readback[20:24]) #raw heading 
-                heading = struct.unpack('f', bytes(heading_raw))[0]
-                print("Heading",heading)                
-
-                heading_raw = (readback[20:24]) #raw heading 
-                heading = struct.unpack('f', bytes(heading_raw))[0]
-                print("Heading",heading)
-
-                '''
-
-                time_ms = struct.unpack('I', bytes(readback[0:4]))[0] #unin32
-                time_s = struct.unpack('d', bytes(readback[4:12]))[0]  #double
-                roll = struct.unpack('f', bytes(readback[12:16]))[0]
-                pitch = struct.unpack('f', bytes(readback[16:20]))[0]
-                heading = struct.unpack('f', bytes(readback[20:24]))[0]
-                xrate = struct.unpack('f', bytes(readback[24:28]))[0]
-                yrate = struct.unpack('f', bytes(readback[28:32]))[0]
-                zrate = struct.unpack('f', bytes(readback[32:36]))[0]
-                xaccel = struct.unpack('f', bytes(readback[36:40]))[0]
-                yaccel = struct.unpack('f', bytes(readback[40:44]))[0]
-                zaccel = struct.unpack('f', bytes(readback[44:48]))[0]
-                zaccel = struct.unpack('f', bytes(readback[48:52]))[0]
 
                 imudata =[time_ms, time_s, roll, pitch, heading, xrate, yrate, zrate, xaccel, yaccel, zaccel]
-                #imudata =[time_ms, time_s, roll, pitch, heading, 0, 0, 0, 0, 0, 0]
 
             return imudata
         except:
